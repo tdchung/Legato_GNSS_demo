@@ -1,0 +1,49 @@
+executables:
+{
+    Legato_GNSS_demo = ( Component )
+}
+
+bindings:
+{
+    Legato_GNSS_demo.Component.le_data -> dataConnectionService.le_data
+    Legato_GNSS_demo.Component.le_pos -> positioningService.le_pos
+    Legato_GNSS_demo.Component.le_posCtrl -> positioningService.le_posCtrl
+    Legato_GNSS_demo.Component.le_gnss -> positioningService.le_gnss
+}
+
+requires:
+{
+    file:
+    {
+        // needed for curl itself:
+        /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+        /usr/bin/curl /usr/bin/curl
+
+        // needed for networking:
+        /lib/libnss_compat.so.2 /lib/
+        /lib/libnss_files.so.2 /lib/
+        /lib/libnss_dns.so.2 /lib/
+        /lib/libresolv.so.2 /lib/
+        /etc/nsswitch.conf /etc/
+        /etc/hosts /etc/
+        /etc/resolv.conf /etc/
+
+        /bin/sh /bin/sh
+        /bin/date /bin/date
+    }
+
+    device:
+    {
+        [rw] /dev/null /dev/null
+        [r] /dev/urandom /dev/urandom
+        [r] /dev/random /dev/random
+    }
+}
+
+processes:
+{
+    run:
+    {
+        ( httpGet )
+    }
+}
